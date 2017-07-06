@@ -16,6 +16,7 @@ public class HelloController {
     @RequestMapping("/hello.do")
     @ResponseBody
     public String method(@RequestBody Map<String,Object> map){
+        System.out.println(map.get("a"));
         return "hello";
     }
 }
