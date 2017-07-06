@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-11
+<input type="button" id="btn">
+<script src="js/jquery.min.js"></script>
+<script>
+    $("#btn").click(function () {
+        $.ajax({
+            url:'/hello.do',
+            type:'POST',
+            data:JSON.stringify({'a':'a'}),
+            success:function (d) {
+                alert(d);
+            }
+        });
+    });
+</script>
 </body>
 </html>
