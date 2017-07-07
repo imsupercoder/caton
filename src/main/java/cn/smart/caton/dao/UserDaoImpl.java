@@ -26,11 +26,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     public User findById(String id) {
-        return null;
+        String sql = "select * from user where id=?";
+        return jdbcTemplate.queryForObject(sql,new UserRowMapper(),id);
     }
 
     public void insert(User user) {
-
+        
     }
 
     public void update(User user) {
