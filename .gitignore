@@ -2,8 +2,7 @@
 target/
 out/
 # IDEA #
-.idea/
-*.iml
+#*.iml
 # Eclipse #
 .settings/
 .metadata/
