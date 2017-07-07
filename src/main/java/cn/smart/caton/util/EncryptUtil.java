@@ -1,4 +1,4 @@
-package cn;
+package cn.smart.caton.util;
 
 
 import javax.crypto.Cipher;
