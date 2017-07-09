@@ -1,0 +1,27 @@
+.table-bordered {
+	border: 1px solid #1e1c1c;
+}
+
+.table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+	border: 1px solid #1e1c1c;
+	white-space: nowrap;
+}
+
+body {
+	color: #040405;
+	font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.471;
+}
+
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+	padding: 8px;
+	line-height: 1.42857143;
+	vertical-align: middle;
+}
+
+th {
+	text-align: center;
+}
