@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+    <title>用户管理</title>
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- toastr -->
+    <link href="/vendors/toastr/toastr.min.css" rel="stylesheet">
+    <!-- ztree -->
+    <link href="/vendors/zTree/css/demo.css" rel="stylesheet">
+    <link href="/vendors/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <!-- showLoading -->
+    <link href="/vendors/showloading/showLoading.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="/css/custom.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="/js/es5-shim-master/es5-shim.min.js"></script>
+    <script src="/js/es5-shim-master/es5-sham.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="mainpart" id="bodyTry">
+<div class="row" id="showLoading">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <form class="form-horizontal form-label-left input_mask" id="queryForm">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-1 col-sm-1 col-xs-12">用户名 </label>
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <input type="text" class="form-control" id="username" data-bind="value:$root.queryVO().userName">
+                                </div>
+                                <label class="control-label col-md-1 col-sm-1 col-xs-12">角色 </label>
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <select type="text" class="form-control" id="gender" data-bind="value:$root.queryVO().gender">
+                                        <option value="">全部</option>
+                                        <option value="男">男</option>
+                                        <option value="女">女</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <button class="btn btn-primary" class="form-control" data-bind="click:$root.query">查询</button>
+                                    <button class="btn btn-primary" class="form-control" data-toggle="modal" data-target=".updateModal" data-bind="click:$root.newVO">添加</button>
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12"></div>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="showUserTable" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>用户名</th>
+                            <th>性别</th>
+                            <th>密码</th>
+                        </tr>
+                        </thead>
+                        <tbody data-bind="foreach: pageList.pageItems">
+                        <tr>
+                            <td>
+                                <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target=".updateModal" data-bind="click:$root.setCurrentVO.bind($data)">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" data-bind="click:$root.setCurrentVO.bind($data)">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                            </td>
+                            <td data-bind="text:userName"></td>
+                            <td data-bind="text:gender"></td>
+                            <td data-bind="text:password"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="pager"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal update-->
+<div id="updateModal" class="modal fade updateModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" data-bind="text:userVO().id==''?'新增用户':'用户编辑 '"></h4>
+            </div>
+            <div class="modal-body">
+                <form data-parsley-validate id="demo-form" data-parsley-validate class="form-horizontal form-label-left">
+                    <div >
+                        <div class="row">
+                            <div class="form-group col-md-10 col-sm-10 col-xs-12">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12 col-md-offset-2">姓名</label>
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control"  data-bind="value:$root.userVO().userName,disable:$root.userVO().id!=''">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-10 col-sm-10 col-xs-12">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12 col-md-offset-2">性别</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <label for="male">男</label>
+                                    <input type="radio" id="male" class="form-inline" name="gender" value="男" data-bind="checked:$root.userVO().gender"}>
+                                    <label for="female">女</label>
+                                    <input type="radio" id="female" class="form-inline" name="gender" value="女" data-bind="checked:$root.userVO().gender">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-10 col-sm-10 col-xs-12">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12 col-md-offset-2">密码</label>
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <input type="text" class="form-control"  data-bind="value:$root.userVO().password">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-success" data-bind="click:$root.save">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal delete-->
+<div id="deleteModal" class="modal fade deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">删除用户</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    确定要用户：
+                    <code data-bind="text:$root.userVO().userName"></code>
+                    么？
+                </p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" data-bind="click:$root.delete">删除</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="/js/jquery/jquery.min.js"></script>
+<!-- jQuery showloading-->
+<script src="/js/jquery/jquery.showLoading.js"></script>
+<script src="/js/jquery/jquery.showLoading.min.js"></script>
+<!-- Bootstrap -->
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<script src="/js/bootstrap/bootstrap-table/bootstrap-table.js"></script>
+<!-- Datatables -->
+<script src="/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- validate -->
+<script src="/vendors/parsleyjs/dist/parsley.min.js"></script>
+<script src="/vendors/parsleyjs/dist/i18n/zh_cn.js"></script>
+<!-- toastr -->
+<script src="/vendors/toastr/toastr.min.js"></script>
+<!-- zTree -->
+<script src="/vendors/zTree/js/jquery.ztree.all.min.js"></script>
+<script src="/js/treeUtil.js"></script>
+<!-- knockout -->
+<script src="/js/knockout.js"></script>
+<script src="/js/knockout-paging.js"></script>
+
+<!-- Custom Theme Scripts -->
+<script src="/js/custom.js"></script>
+<script src="/js/commonUtils.js?v=1.4"></script>
+<script type="text/javascript">
+    $.ajaxSetup({cache:false});
+    var emptyUserVO = {
+        id:'',
+        userName:'',
+        gender:'男'
+    };
+    var queryVO = {
+        userName:'',
+        gender:''
+    };
+    var pageList = ko.observableArray().extend({
+        paged : {
+            pageSize : 20,
+            pageGenerator : 'sliding'
+        }
+    });
+    $('#pager').empty().append(pagingInfo('pageList'));
+
+    $("#showLoading").showLoading();
+    $.ajax({
+        url : "/user/users.do",
+        type : "POST",
+        contentType : "application/json;charset=utf-8",
+        data : {},
+        success : function(u) {
+            vm = new MyViewModel(u);
+            ko.applyBindings(vm);
+        },
+        error : ajaxError,
+        dataType : "json",
+        complete : function() {
+            $("#showLoading").hideLoading();
+        }
+    });
+
+
+    function MyViewModel(u) {
+        var self = this;
+        self.userVOs = ko.observableArray(u);
+        self.userVO = ko.observable();
+        self.userVO(jQuery.extend(true,{},emptyUserVO));
+        pageList.pageNumber(1);
+        self.pageList = pageList;
+        self.pageList(u);
+        self.queryVO = ko.observable(jQuery.extend(true,{},queryVO));
+        self.query = function(){
+            $.ajax({
+                url:'/user/users.do',
+                type:'POST',
+                data:self.queryVO(),
+                success:function(d){
+                    pageList.pageNumber(1);
+                    self.pageList = pageList;
+                    self.pageList(d);
+                },
+                error:ajaxError
+            });
+        };
+        self.operation = ko.observable();
+        self.setCurrentVO = function(data){
+            self.userVO(jQuery.extend(true,{},data));
+        };
+        self.newVO = function(){
+            self.userVO(jQuery.extend(true,{},emptyUserVO));
+        };
+        self.edit=function(data){
+            self.setCurrentVO(data);
+        };
+        self.delete=function(){
+            $("#showLoading").showLoading();
+            $.ajax({
+                url:'/user/delete.do',
+                type:'POST',
+                data:{id:self.userVO().id},
+                success:function(d){
+                    if(d.flag){
+                        self.query();
+                        $('#deleteModal').modal('hide');
+                        toastr.success("删除成功");
+                    } else {
+                        toastr.success("删除失败");
+                    }
+                },
+                error:ajaxError,
+                complete:function(){
+                    $("#showLoading").hideLoading();
+                }
+            });
+        };
+        self.save = function(){
+            $("#showLoading").showLoading();
+            $.ajax({
+                url:'/user/user.do',
+                type:'POST',
+                data:JSON.stringify(self.userVO()),
+                contentType:'application/json',
+                success:function(d){
+                    if(d.flag){
+                        self.query();
+                        $('#updateModal').modal('hide');
+                        toastr.success("保存成功");
+                    } else {
+                        toastr.success("保存失败");
+                    }
+
+                },
+                error:ajaxError,
+                complete:function(){
+                    $("#showLoading").hideLoading();
+                }
+            });
+        }
+    }
+
+</script>
+</body>
+</html>

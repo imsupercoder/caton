@@ -1,37 +1,23 @@
 package cn.smart.caton.model;
 
-import cn.smart.caton.annotation.Column;
 import cn.smart.caton.annotation.Table;
-
-import java.io.Serializable;
 
 /**
  * Created by user on 2017/7/6.
  */
 @Table("USER")
-public class User implements Serializable {
+public class User extends BaseEntity {
 
-    @Column("ID")
-    private String id;
-    @Column("USERNAME")
-    private String username;
-    @Column("PASSWORD")
+    private String userName;
     private String password;
+    private String gender;
 
-    public String getId() {
-        return id;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -40,5 +26,13 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
