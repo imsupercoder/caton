@@ -4,7 +4,6 @@ import cn.smart.caton.model.User;
 import cn.smart.caton.service.UserService;
 import cn.smart.caton.util.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

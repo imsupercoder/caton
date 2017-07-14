@@ -18,7 +18,7 @@
         <!-- 数据库基本信息配置 -->
         <property name = "url" value = "jdbc:mysql://127.0.0.1:3306/caton?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=GMT%2B8&amp;useSSL=true" />
         <property name = "username" value = "root" />
-        <property name = "password" value = "1234" />
+        <property name = "password" value = "123" />
         <property name = "driverClassName" value = "com.mysql.cj.jdbc.Driver" />
         <property name = "filters" value = "stat" />
         <!-- 最大并发连接数 -->
@@ -54,4 +54,37 @@
     </bean>
     <!--使用注释事务 -->
     <tx:annotation-driven  transaction-manager="transactionManager" />
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" />
+    <bean id="userRealm" class="cn.smart.caton.shiro.UserRealm">
+        <property name="cachingEnabled" value="true" />
+        <property name="authenticationCachingEnabled" value="false" />
+        <property name="authorizationCachingEnabled" value="true" />
+        <property name="authenticationCacheName" value="authenticationCache" />
+        <property name="authorizationCacheName" value="authorizationCache" />
+    </bean>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- 单realm应用。如果有多个realm，使用‘realms’属性代替 -->
+        <property name="realm" ref="userRealm" />
+        <property name="cacheManager" ref="cacheManager" />
+    </bean>
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <property name="loginUrl" value="/login" />
+        <property name="successUrl" value="/" />
+        <property name="filterChainDefinitions">
+            <value>
+                /login = authc
+                /logout = anon
+                /authenticated = authc
+                /favicon.ico = anon
+                /css/** = anon
+                /error/** = anon
+                /images/** = anon
+                /deadoralive = anon
+                /js/** = anon
+                /vendors/** = anon
+                /** = user
+            </value>
+        </property>
+    </bean>
 </beans>

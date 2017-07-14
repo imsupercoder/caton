@@ -3,17 +3,9 @@ package cn.smart.caton.dao;
 import cn.smart.caton.model.User;
 import cn.smart.caton.util.SQLUtil;
 import cn.smart.caton.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +16,6 @@ import java.util.Map;
 @Repository
 public class UserDaoImpl extends SmartDaoSupport<User> implements UserDao {
 
-    private static  Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
     @Override
     public List<User> findList(Map<String, String> params) {
         String sql = SQLUtil.queryAllSql(User.class);
@@ -38,7 +29,6 @@ public class UserDaoImpl extends SmartDaoSupport<User> implements UserDao {
             values.add(params.get("gender"));
         }
         sql = sql.replaceFirst("and","where");
-        //log.info(sql);
         return getJdbcTemplate().query(sql,BeanPropertyRowMapper.newInstance(User.class),values.toArray(new String[0]));
     }
 }
