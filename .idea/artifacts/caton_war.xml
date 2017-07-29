@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="caton:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="caton.war">
+      <element id="artifact" artifact-name="caton:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -6,6 +6,7 @@
 
     <groupId>cn.smart</groupId>
     <artifactId>caton</artifactId>
+    <packaging>war</packaging>
     <version>1.0</version>
     <properties>
         <spring.version>4.3.7.RELEASE</spring.version>
@@ -162,8 +163,10 @@
             <artifactId>ehcache-core</artifactId>
             <version>2.5.3</version>
         </dependency>
+
     </dependencies>
     <build>
+        <finalName>caton</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
