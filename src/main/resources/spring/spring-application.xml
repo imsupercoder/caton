@@ -62,10 +62,16 @@
         <property name="authenticationCacheName" value="authenticationCache" />
         <property name="authorizationCacheName" value="authorizationCache" />
     </bean>
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionIdUrlRewritingEnabled" value="false" />
+        <!-- 验证会话时会话的过期时间(毫秒) -->
+        <property name="globalSessionTimeout" value="3600000" />
+    </bean>
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- 单realm应用。如果有多个realm，使用‘realms’属性代替 -->
         <property name="realm" ref="userRealm" />
         <property name="cacheManager" ref="cacheManager" />
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />

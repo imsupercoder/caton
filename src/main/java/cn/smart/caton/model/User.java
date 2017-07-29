@@ -8,9 +8,18 @@ import cn.smart.caton.annotation.Table;
 @Table("USER")
 public class User extends BaseEntity {
 
+    private String userCode;
     private String userName;
     private String password;
     private String gender;
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
 
     public String getUserName() {
         return userName;
