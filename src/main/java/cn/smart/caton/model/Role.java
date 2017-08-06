@@ -7,7 +7,10 @@
 
 package cn.smart.caton.model;
 
+import cn.smart.caton.annotation.DBExclude;
 import cn.smart.caton.annotation.Table;
+
+import java.util.List;
 
 
 /**
@@ -18,8 +21,7 @@ import cn.smart.caton.annotation.Table;
  * */
 @Table("Role")
 public class Role  extends BaseEntity{
-	private static final long serialVersionUID = 5454155825314635342L;
-	
+
     /**
      * name       db_column: NAME 
      */ 
@@ -28,6 +30,9 @@ public class Role  extends BaseEntity{
      * remark       db_column: REMARK 
      */ 
 	private String remark;
+
+	@DBExclude
+	private List<Function> functions;
 
 	public Role(){
 	}
@@ -44,4 +49,11 @@ public class Role  extends BaseEntity{
 		this.remark = value;
 	}
 
+	public List<Function> getFunctions() {
+		return functions;
+	}
+
+	public void setFunctions(List<Function> functions) {
+		this.functions = functions;
+	}
 }

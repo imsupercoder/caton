@@ -18,8 +18,7 @@ import cn.smart.caton.annotation.Table;
  * */
 @Table("Function")
 public class Function  extends BaseEntity{
-	private static final long serialVersionUID = 5454155825314635342L;
-	
+
     /**
      * name       db_column: NAME 
      */ 
@@ -32,6 +31,16 @@ public class Function  extends BaseEntity{
      * module       db_column: MODULE 
      */ 
 	private String module;
+
+	private String code;
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 	public Function(){
 	}

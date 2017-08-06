@@ -26,5 +26,5 @@ public interface FunctionDao{
     Function findById(String id);
     int insertOrUpdate(Function entity);
     int delete(String id);
-
+    List<Function> getFunctionsByRoleId(String roleId);
 }

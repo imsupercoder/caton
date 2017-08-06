@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title></title>
+    <title>登陆</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">

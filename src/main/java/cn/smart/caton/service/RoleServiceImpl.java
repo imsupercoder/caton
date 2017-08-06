@@ -35,6 +35,7 @@ public class RoleServiceImpl implements RoleService {
 	 * 创建/更新Role
 	 **/
 	public int insertOrUpdate(Role role) {
+		this.roleDao.saveRoleFunction(role);
 	    return this.roleDao.insertOrUpdate(role);
 	}	
     

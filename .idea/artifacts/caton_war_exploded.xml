@@ -45,6 +45,8 @@
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-ehcache:1.4.0" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-spring:1.4.0" />
           <element id="library" level="project" name="Maven: net.sf.ehcache:ehcache-core:2.5.3" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.10" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.10" />
         </element>
       </element>
       <element id="directory" name="META-INF">

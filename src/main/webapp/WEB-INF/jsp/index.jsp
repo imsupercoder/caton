@@ -50,9 +50,16 @@
                                 </a>
                                 <ul class="nav child_menu">
                                     <li>
-                                        <a href="#" url="/page/user.html">用户管理</a>
+                                        <a href="#" url="/page/system/user.html">用户管理</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" url="/page/system/role.html">角色管理</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" url="/page/system/function.html">功能管理</a>
                                     </li>
                                 </ul>
+
                             </li>
                         </ul>
                     </div>
@@ -140,6 +147,13 @@
             $('#menu_toggle h3').text(title)
             $("#mainpart").prop("src", t);
         });
+    });
+    $.ajax({
+        url : "/user/current/permissions",
+        success : function(d) {
+            sessionStorage.setItem("permissions", d);
+        },
+        cache : false
     });
 </script>
 </body>

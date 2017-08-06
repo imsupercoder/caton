@@ -2,11 +2,13 @@ package cn.smart.caton.service;
 
 import cn.smart.caton.dao.UserDao;
 import cn.smart.caton.model.User;
+import cn.smart.caton.util.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by user on 2017/7/6.
@@ -27,11 +29,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int insertOrUpdate(User user) {
+        if(user!=null&&user.getPassword()!=null){
+            user.setPassword(EncryptUtil.hexMD5(user.getPassword()));
+        }
         return userDao.insertOrUpdate(user);
     }
 
     @Override
     public int delete(String id) {
         return userDao.delete(id);
+    }
+
+    @Override
+    public Set<String> getRoles(String id) {
+        return userDao.getRoles(id);
+    }
+
+    @Override
+    public Set<String> getFunctions(Set<String> roles) {
+        return userDao.getFunctions(roles);
+    }
+
+    @Override
+    public User findByCode(String code) {
+        return userDao.findByCode(code);
     }
 }

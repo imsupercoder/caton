@@ -26,5 +26,5 @@ public interface RoleDao{
     Role findById(String id);
     int insertOrUpdate(Role entity);
     int delete(String id);
-
+    int saveRoleFunction(Role role);
 }

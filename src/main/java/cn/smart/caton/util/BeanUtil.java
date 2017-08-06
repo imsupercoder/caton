@@ -1,5 +1,6 @@
 package cn.smart.caton.util;
 
+import cn.smart.caton.annotation.DBExclude;
 import cn.smart.caton.annotation.Table;
 import org.apache.commons.beanutils.BeanIntrospector;
 
@@ -8,6 +9,9 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -44,11 +48,13 @@ public class BeanUtil {
         if(fieldNames!=null)
             return fieldNames;
         Field[] fields = clazz.getDeclaredFields();
-        fieldNames = new String[fields.length];
-        int index =0;
+        List<String> list = new ArrayList<>();
         for(Field field :fields){
-            fieldNames[index++] = field.getName();
+            if(field.isAnnotationPresent(DBExclude.class))
+                continue;
+            list.add(field.getName());
         }
+        fieldNames = list.toArray(new String[0]);
         cachedFieldNames.put(clazz,fieldNames);
         return fieldNames;
     }

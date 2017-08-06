@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class IndexController extends BaseController {
-    @RequestMapping("/index.do")
+    @RequestMapping("/index")
     public String index(HttpServletRequest request){
         return "/index";
     }

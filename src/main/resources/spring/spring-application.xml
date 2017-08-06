@@ -14,7 +14,7 @@
     <context:component-scan base-package="cn.smart.caton.service,cn.smart.caton.dao"/>
     <context:annotation-config/>
     <!-- 阿里 druid 数据库连接池 -->
-    <bean id = "dataSource" class = "com.alibaba.druid.pool.DruidDataSource" destroy-method = "close" >
+    <bean id = "dataSource" class = "com.alibaba.druid.pool.DruidDataSource" destroy-method = "close" lazy-init="false">
         <!-- 数据库基本信息配置 -->
         <property name = "url" value = "jdbc:mysql://39.108.45.202:3306/caton?useUnicode=true&amp;characterEncoding=utf8&amp;serverTimezone=GMT%2B8&amp;useSSL=true" />
         <property name = "username" value = "root" />
@@ -62,10 +62,24 @@
         <property name="authenticationCacheName" value="authenticationCache" />
         <property name="authorizationCacheName" value="authorizationCache" />
     </bean>
+    <!-- 会话ID生成器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />
+
+    <!-- 会话Cookie模板 -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid" />
+        <property name="httpOnly" value="true" />
+        <property name="maxAge" value="-1" />
+    </bean>
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="sessionIdUrlRewritingEnabled" value="false" />
+       <!-- <property name="sessionIdUrlRewritingEnabled" value="false" />-->
         <!-- 验证会话时会话的过期时间(毫秒) -->
         <property name="globalSessionTimeout" value="3600000" />
+        <property name="deleteInvalidSessions" value="true" />
+        <property name="sessionValidationSchedulerEnabled" value="true" />
+        <property name="sessionIdUrlRewritingEnabled" value="false" />
+        <property name="sessionIdCookieEnabled" value="true" />
+        <property name="sessionIdCookie" ref="sessionIdCookie" />
     </bean>
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- 单realm应用。如果有多个realm，使用‘realms’属性代替 -->
@@ -73,13 +87,18 @@
         <property name="cacheManager" ref="cacheManager" />
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
+    <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager" />
+        <property name="arguments" ref="securityManager" />
+    </bean>
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
         <property name="loginUrl" value="/login" />
         <property name="successUrl" value="/" />
         <property name="filterChainDefinitions">
             <value>
-                /login = authc
+                /login = anon
                 /logout = anon
                 /authenticated = authc
                 /favicon.ico = anon
@@ -92,5 +111,10 @@
                 /** = user
             </value>
         </property>
+    </bean>
+    <!-- Shiro生命周期处理器 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
     </bean>
 </beans>

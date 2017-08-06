@@ -14,6 +14,9 @@
     <mvc:annotation-driven />
     <mvc:default-servlet-handler />
     <aop:config proxy-target-class="true"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
 
     <!-- Add your own base packages to scan -->
     <context:component-scan base-package="cn.smart.caton.controller" />

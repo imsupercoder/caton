@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>功能管理</title>
+<!-- Bootstrap -->
+<link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link href="/vendors/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet">
+<!-- iCheck -->
+<link href="/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+<!-- toastr -->
+<link href="/vendors/toastr/toastr.min.css" rel="stylesheet">
+<!-- Custom Theme Style -->
+<link href="/css/custom.css" rel="stylesheet">
+<!-- showLoading -->
+<link href="/vendors/showloading/showLoading.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+	<script src="/js/es5-shim-master/es5-shim.min.js"></script>
+	<script src="/js/es5-shim-master/es5-sham.min.js"></script>
+	<script src="/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body class="mainpart">
+	<div class="row" id="showLoading">
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+
+			<div class="x_panel">
+				<div class="x_content">
+					<div class="row">
+						<div class="input-group col-md-3 col-sm-3 col-xs-12" data-bind="visible:permissions.indexOf('caton.sys.admin')>-1"
+							style="float: left; padding-left: 10px">
+							<a href="#" class="btn btn-default btn-sm"
+								data-toggle="modal" data-target="#updateModal" data-bind="click:$root.newFunction"><i
+								class="fa fa-plus"></i> 新增 </a>
+						</div>
+
+						<div class="input-group col-md-3 col-sm-3 col-xs-12" style="float: right">
+
+							<input type="text" id="search" class="form-control"
+								data-bind="event: { keyup: $root.search.bind($data) }"
+								placeholder="查找搜索"> <span class="input-group-addon"
+								data-bind="event: { click: $root.search.bind($data) }"> <i
+								class="fa fa-search"></i>
+							</span>
+						</div>
+					</div>
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th data-bind="visible:permissions.indexOf('caton.sys.admin')>-1"></th>
+								<th data-bind="visible:permissions.indexOf('caton.sys.admin')>-1"></th>
+								<th>模块代码</th>
+								<th>模块名称</th>
+								<th>创建时间</th>
+								<th>创建人</th>
+							</tr>
+						</thead>
+						<tbody 
+							data-bind="foreach: pageList.pageItems">
+							<tr>
+								<td data-bind="visible:permissions.indexOf('caton.sys.admin')>-1"><a href="#" class="btn btn-info btn-xs"
+									data-toggle="modal" data-target="#updateModal" data-bind="click:$root.getEditFunction"> <i
+										class="fa fa-pencil"></i> 编辑
+								</a></td>
+								<td data-bind="visible:permissions.indexOf('caton.sys.admin')>-1"><a href="#" class="btn btn-danger btn-xs"
+									data-toggle="modal" data-target="#deleteModal" data-bind="click:$root.getDeleteFunction"> <i
+										class="fa fa-trash-o"></i> 删除
+								</a></td>
+								<td data-bind="text:code"></td>
+								<td data-bind="text:name"></td>
+								<td data-bind="text:addTime"></td>
+								<td data-bind="text:addBy"></td>
+							</tr>
+						</tbody>
+					</table>
+					<div id="pager"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal update-->
+		<div id="updateModal" class="modal fade updateModal" tabindex="-1"
+			role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content" id="gradeModal">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span>
+						</button>
+						<h4 class="modal-title"
+							data-bind="text:$root.functionVO().id==''?'新增':'编辑'"></h4>
+					</div>
+					<div class="modal-body">
+						<form data-parsley-validate id="updateForm" data-parsley-validate
+							class="form-horizontal form-label-left">
+							<div >
+								<div class="row">
+									<div class="form-group col-md-10 col-sm-10 col-xs-12">
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<label class="control-label" style="width: 100%">模块代码</label>
+										</div>
+										<div class="col-md-5 col-sm-5 col-xs-12">
+											<input type="text"  placeholder="模块代码" data-bind="value:$root.functionVO().code,disable:$root.functionVO().id==''?false:true"
+												 required="required" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-10 col-sm-10 col-xs-12">
+										<div class="col-md-2 col-sm-2 col-xs-12">
+											<label class="control-label" style="width: 100%">模块名称</label>
+										</div>
+										<div class="col-md-5 col-sm-5 col-xs-12">
+											<input type="text"  placeholder="模块名称" data-bind="value:$root.functionVO().name"
+												 required="required" class="form-control">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">取消</button>
+								<button type="button"
+									class="btn btn-success" data-bind="click:$root.insertOrUpdateFunction">保存</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal end-->
+		
+		<!-- modal delete-->
+		<div id="deleteModal" class="modal fade deleteModal" tabindex="-1"
+			role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span>
+						</button>
+						<h4 class="modal-title">删除权限模块</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+							确定要权限模块：<code data-bind="text:$root.functionVO().name"></code>
+							么？
+						</p>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">取消</button>
+							<button type="button" class="btn btn-danger" data-bind="click:$root.deleteFunction">删除</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal end-->
+	</div>
+	<!-- jQuery -->
+	<script src="/js/jquery/jquery.min.js"></script>
+	<!-- jQuery showloading-->
+	<script src="/js/jquery/jquery.showLoading.js"></script>
+	<script src="/js/jquery/jquery.showLoading.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="/js/bootstrap/bootstrap.min.js"></script>
+	<!-- validate -->
+	<script src="/vendors/parsleyjs/dist/parsley.min.js"></script>
+	<script src="/vendors/parsleyjs/dist/i18n/zh_cn.js"></script>
+	<!-- toastr -->
+	<script src="/vendors/toastr/toastr.min.js"></script>
+	<!-- knockout -->
+	<script src="/js/knockout.js"></script>
+	<script src="/js/knockout-paging.js"></script>
+
+	<!-- Custom Theme Scripts -->
+	<script src="/js/custom.js"></script>
+	<script src="/js/search.js"></script>
+	<script src="/js/commonUtils.js"></script>
+	<script type="text/javascript">
+		var permissions = sessionStorage.getItem("permissions");
+		$.ajaxSetup({cache:false});
+		var pageList = ko.observableArray().extend({
+			paged : {
+				pageSize : 20,
+				pageGenerator : 'sliding'
+			}
+		});
+		$('#pager').empty().append(pagingInfo('pageList'));
+		
+		$("#showLoading").showLoading();
+		$.ajax({
+			url : "/function/functions",
+			success : function(u) {
+				allDateForSearch = u;
+				vm = new MyViewModel(u);
+				ko.applyBindings(vm);
+			},
+			error : ajaxError,
+			dataType : "json",
+			complete : function() {
+                $("#showLoading").hideLoading();
+            }
+		});
+		var emptyFunction = {
+				id : "",
+				name : "",
+				code : "",
+				addTime : "",
+				addBy : "",
+		};
+
+		function MyViewModel(u) {
+			var self = this;
+			self.functionVOs = ko.observableArray(u);
+			self.functionVO = ko.observable();
+			self.functionVO(jQuery
+					.extend(true, {}, emptyFunction));
+			//分页
+			pageList.pageNumber(1);
+			self.pageList = pageList;
+			self.pageList(u);
+			//搜索
+			self.search = function() {
+				self.functionVOs(allDateForSearch
+						.filter(filterByAnyString));
+				self.pageList(allDateForSearch.filter(filterByAnyString));
+				pageList.pageNumber(1);
+			};
+			//点击新增按钮
+			self.newFunction =function(){
+				self.functionVO(jQuery
+						.extend(true, {}, emptyFunction));
+			}
+			self.findFunctions = function(){
+				$("#showLoading").showLoading();
+				$.ajax({
+					url : "/function/functions",
+					success : function(u) {
+						allDateForSearch = u;
+						self.functionVOs(u);
+						self.pageList(u);
+					},
+					error : ajaxError,
+					dataType : "json",
+					complete : function() {
+		                $("#showLoading").hideLoading();
+		            }
+				});
+			}
+			//点击新增的保存按钮
+			self.insertOrUpdateFunction = function(){
+				//alert(ko.toJSON(self.functionVO()));
+				//到后台更新
+				if ($('#updateForm').parsley().validate()) {
+					$("#updateModal").showLoading();
+					$.ajax({
+						url : "/function/function",
+						method : "POST",
+						contentType : "application/json;charset=utf-8",
+						data : ko.toJSON(self.functionVO()),
+						success : function(d) {
+							if (d) {
+								toastr.success("保存权限模块成功!");
+								$('#updateModal').modal('hide');
+							} else {
+								toastr.success("保存权限模块失败!");
+							}
+							$('#updateModal').modal('hide');
+							self.findFunctions();
+						},
+						error:ajaxError,
+						dataType : "json",
+						complete : function() {
+			                $("#updateModal").hideLoading();
+			            }
+					});
+				}
+			}
+			//点击编辑按钮
+			self.getEditFunction = function(d){
+				self.functionVO(d);
+			}
+			//点击删除按钮
+			self.getDeleteFunction = function(d){
+				self.functionVO(d);
+			}
+			//点击删除的确认按钮
+			self.deleteFunction = function(d){
+				var functionId =self.functionVO().functionId; 
+				$.ajax({
+					url : "/function/delete",
+					method : "POST",
+					data : {"id":self.functionVO().id},
+					success : function(d) {
+						if (d) {
+							toastr.success("删除权限模块成功!");
+							$('#deleteModal').modal('hide');
+						} else {
+							toastr.success("删除权限模块失败!");
+						}
+						$('#deleteModal').modal('hide');
+						self.findFunctions();
+					},
+					error:ajaxError,
+					dataType : "json"
+				});
+			}
+
+		}
+
+	</script>
+</body>
+</html>

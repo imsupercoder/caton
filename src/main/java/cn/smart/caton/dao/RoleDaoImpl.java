@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import cn.smart.caton.model.Function;
 import cn.smart.caton.model.Role;
 import cn.smart.caton.util.SQLUtil;
 import cn.smart.caton.util.StringUtil;
@@ -43,6 +44,17 @@ public class RoleDaoImpl extends SmartDaoSupport<Role> implements RoleDao{
 		//TODO. 按照示例填充SQL和请求参数
         sql = sql.replaceFirst("and","where");
         return getJdbcTemplate().query(sql,BeanPropertyRowMapper.newInstance(Role.class),values.toArray(new String[0]));
+    }
+
+    @Override
+    public int saveRoleFunction(Role role) {
+	    getJdbcTemplate().update("delete from RoleFunction where roleId=?",role.getId());
+	    List<Function> functions = role.getFunctions();
+	    String sql = "insert into RoleFunction (RoleId,FunctionId) values(?,?)";
+	    for(Function function : functions){
+	        getJdbcTemplate().update(sql,role.getId(),function.getId());
+        }
+        return functions==null?0:functions.size();
     }
 
 }

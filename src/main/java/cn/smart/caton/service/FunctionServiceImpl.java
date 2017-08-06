@@ -59,5 +59,10 @@ public class FunctionServiceImpl implements FunctionService {
 	public List<Function> findList(Map<String,String> params) {
 		return functionDao.findList(params);
 	}
-	
+
+	@Override
+	public List<Function> getFunctionsByRoleId(String roleId) {
+		return functionDao.getFunctionsByRoleId(roleId);
+	}
+
 }

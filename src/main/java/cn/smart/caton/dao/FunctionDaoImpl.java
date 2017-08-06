@@ -45,4 +45,10 @@ public class FunctionDaoImpl extends SmartDaoSupport<Function> implements Functi
         return getJdbcTemplate().query(sql,BeanPropertyRowMapper.newInstance(Function.class),values.toArray(new String[0]));
     }
 
+    @Override
+    public List<Function> getFunctionsByRoleId(String roleId) {
+	    String sql = "select f.* from FUNCTION f,RoleFunction rf where rf.functionId= f.id and rf.roleId=? ";
+        return queryForList(sql,BeanPropertyRowMapper.newInstance(Function.class),roleId);
+    }
+
 }

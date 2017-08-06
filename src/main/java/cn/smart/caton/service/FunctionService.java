@@ -40,5 +40,6 @@ public interface FunctionService {
 	 * 查询: Function
 	 **/      
 	List<Function> findList(Map<String, String> params);
-    
+
+	List<Function> getFunctionsByRoleId(String roleId);
 }

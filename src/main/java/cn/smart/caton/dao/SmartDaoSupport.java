@@ -5,8 +5,11 @@ import cn.smart.caton.model.User;
 import cn.smart.caton.util.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -23,6 +26,9 @@ public class SmartDaoSupport<T extends BaseEntity> {
 
     public JdbcTemplate getJdbcTemplate(){
         return this.jdbcTemplate;
+    }
+    public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(){
+        return new NamedParameterJdbcTemplate(jdbcTemplate);
     }
     private Class<T> persistentClass;
 
@@ -45,11 +51,11 @@ public class SmartDaoSupport<T extends BaseEntity> {
     }
 
     public int insert(T obj){
-        Object[] insertValues = ArrayUtils.insert(0,BeanUtil.getValues(obj), UniqueKeyGenerator.getUniqueKeyId(),"admin", DateUtil.format(new Date(),DateUtil.YEAR_TO_SEC));
+        Object[] insertValues = ArrayUtils.insert(0,BeanUtil.getValues(obj), UniqueKeyGenerator.getUniqueKeyId(),obj.getAddBy(), DateUtil.format(new Date(),DateUtil.YEAR_TO_SEC));
         return jdbcTemplate.update(SQLUtil.getInsertSql(persistentClass), insertValues);
     }
     public int update(T obj){
-        Object[] insertValues = ArrayUtils.insert(0,BeanUtil.getValues(obj),"admin", DateUtil.format(new Date(),DateUtil.YEAR_TO_SEC));
+        Object[] insertValues = ArrayUtils.insert(0,BeanUtil.getValues(obj),obj.getUpdateBy(), DateUtil.format(new Date(),DateUtil.YEAR_TO_SEC));
         return jdbcTemplate.update(SQLUtil.getUpdateSql(persistentClass), ArrayUtils.add(insertValues,obj.getId()));
     }
     public T findById(String id){
@@ -58,6 +64,22 @@ public class SmartDaoSupport<T extends BaseEntity> {
 
     public int delete(String id){
         return jdbcTemplate.update(SQLUtil.getDeleteSql(persistentClass),id);
+    }
+
+    public T queryForObject(String sql, RowMapper<T> rowMapper,Object... args){
+        T obj = null;
+        try{
+            obj = jdbcTemplate.queryForObject(sql,rowMapper,args);
+        }catch (Exception e){}
+        return obj;
+    }
+
+    public List<T> queryForList(String sql,RowMapper<T> rowMapper,Object... args){
+        List<T> list = null;
+        try{
+            list = jdbcTemplate.query(sql,rowMapper,args);
+        } catch (Exception e){}
+        return list;
     }
 
 }
