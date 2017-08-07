@@ -18,4 +18,5 @@ public interface UserDao{
     int delete(String id);
     Set<String> getRoles(String username);
     Set<String> getFunctions(Set<String> roles);
+    void saveUserRole(User user);
 }

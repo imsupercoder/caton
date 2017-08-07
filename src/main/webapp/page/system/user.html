@@ -53,10 +53,8 @@
                                 </div>
                                 <label class="control-label col-md-1 col-sm-1 col-xs-12">角色 </label>
                                 <div class="col-md-2 col-sm-2 col-xs-12">
-                                    <select type="text" class="form-control" id="gender" data-bind="value:$root.queryVO().gender">
-                                        <option value="">全部</option>
-                                        <option value="男">男</option>
-                                        <option value="女">女</option>
+                                    <select type="text" class="form-control" id="gender" data-bind="options:$root.queryRoleVOs,optionsText:'name',optionsValue:'id',value:$root.queryVO().roleId">
+
                                     </select>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
@@ -73,7 +71,7 @@
                             <th></th>
                             <th>用户名</th>
                             <th>性别</th>
-                            <th>密码</th>
+                            <th>角色</th>
                         </tr>
                         </thead>
                         <tbody data-bind="foreach: pageList.pageItems">
@@ -88,7 +86,7 @@
                             </td>
                             <td data-bind="text:userName"></td>
                             <td data-bind="text:gender"></td>
-                            <td data-bind="text:password"></td>
+                            <td data-bind="text:roleName"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -134,8 +132,16 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-10 col-sm-10 col-xs-12">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12 col-md-offset-2">角色 </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select class="form-control" data-bind="options:$root.roleVOs,optionsText:'name',optionsValue:'id',value:$root.userVO().roleId"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-10 col-sm-10 col-xs-12">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12 col-md-offset-2">密码</label>
-                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input type="text" class="form-control"  data-bind="value:$root.userVO().password">
                                 </div>
                             </div>
@@ -204,11 +210,12 @@
     var emptyUserVO = {
         id:'',
         userName:'',
-        gender:'男'
+        gender:'男',
+        roleId:''
     };
     var queryVO = {
         userName:'',
-        gender:''
+        roleId:''
     };
     var pageList = ko.observableArray().extend({
         paged : {
@@ -245,6 +252,17 @@
         self.pageList = pageList;
         self.pageList(u);
         self.queryVO = ko.observable(jQuery.extend(true,{},queryVO));
+        self.queryRoleVOs = ko.observableArray([]);
+        self.roleVOs = ko.observableArray([]);
+        $.ajax({
+           url:'/role/roles',
+           type:'GET',
+           success:function(d){
+               self.roleVOs(d);
+               var arr = [{'id':'','name':'请选择'}];
+               self.queryRoleVOs(arr.concat(d));
+           }
+        });
         self.query = function(){
             $.ajax({
                 url:'/user/users.do',

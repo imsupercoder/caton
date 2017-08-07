@@ -1,5 +1,6 @@
 package cn.smart.caton.model;
 
+import cn.smart.caton.annotation.DBExclude;
 import cn.smart.caton.annotation.Table;
 
 /**
@@ -12,6 +13,19 @@ public class User extends BaseEntity {
     private String userName;
     private String password;
     private String gender;
+    @DBExclude
+    private String roleName;
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    @DBExclude
+    private String roleId;
 
     public String getUserCode() {
         return userCode;
@@ -43,5 +57,13 @@ public class User extends BaseEntity {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

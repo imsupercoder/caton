@@ -17,17 +17,21 @@ public class UserDaoImpl extends SmartDaoSupport<User> implements UserDao {
 
     @Override
     public List<User> findList(Map<String, String> params) {
-        String sql = SQLUtil.queryAllSql(User.class);
+        String sql = "select u.*,r.name as roleName from USER u,ROLE r,UserRole ur where ur.UserId = u.id and r.id=ur.roleId ";//SQLUtil.queryAllSql(User.class);
         List<String> values = new LinkedList<>();
         if(StringUtil.isNotEmpty(params.get("userName"))) {
-            sql += " and USERNAME like ?";
+            sql += " and u.USERNAME like ?";
             values.add("%"+params.get("userName")+"%");
         }
         if(StringUtil.isNotEmpty(params.get("gender"))) {
-            sql += " and GENDER =?";
+            sql += " and u.GENDER =?";
             values.add(params.get("gender"));
         }
-        sql = sql.replaceFirst("and","where");
+        if(StringUtil.isNoneEmpty(params.get("roleId"))){
+            sql+= " and r.id =?";
+            values.add(params.get("roleId"));
+        }
+        //sql = sql.replaceFirst("and","where");
         return getJdbcTemplate().query(sql,BeanPropertyRowMapper.newInstance(User.class),values.toArray(new String[0]));
     }
 
@@ -57,5 +61,11 @@ public class UserDaoImpl extends SmartDaoSupport<User> implements UserDao {
         List<String> list = getNamedParameterJdbcTemplate().queryForList(sql,map,String.class);
         functions.addAll(list);
         return functions;
+    }
+
+    @Override
+    public void saveUserRole(User user) {
+        getJdbcTemplate().update("delete from UserRole where userId = ?",user.getId());
+        getJdbcTemplate().update("insert into UserRole (userId,roleId)values(?,?)",user.getId(),user.getRoleId());
     }
 }
