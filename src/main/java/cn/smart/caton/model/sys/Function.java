@@ -5,9 +5,10 @@
  * Since 2017
  */
 
-package cn.smart.caton.model;
+package cn.smart.caton.model.sys;
 
 import cn.smart.caton.annotation.Table;
+import cn.smart.caton.model.BaseEntity;
 
 
 /**
@@ -17,7 +18,7 @@ import cn.smart.caton.annotation.Table;
  * @since 1.0
  * */
 @Table("Function")
-public class Function  extends BaseEntity{
+public class Function  extends BaseEntity {
 
     /**
      * name       db_column: NAME 
