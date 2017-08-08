@@ -1,10 +1,9 @@
-package cn.smart.caton.dao;
+package cn.smart.caton.dao.sys;
 
-import cn.smart.caton.model.User;
-import cn.smart.caton.util.SQLUtil;
+import cn.smart.caton.dao.SmartDaoSupport;
+import cn.smart.caton.model.sys.User;
 import cn.smart.caton.util.StringUtil;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

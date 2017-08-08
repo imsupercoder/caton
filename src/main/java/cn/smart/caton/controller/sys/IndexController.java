@@ -1,4 +1,4 @@
-package cn.smart.caton.controller;
+package cn.smart.caton.controller.sys;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,6 +1,6 @@
 package cn.smart.caton.controller;
 
-import cn.smart.caton.model.User;
+import cn.smart.caton.model.sys.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;

@@ -1,4 +1,4 @@
-package cn.smart.caton.controller;
+package cn.smart.caton.controller.sys;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;

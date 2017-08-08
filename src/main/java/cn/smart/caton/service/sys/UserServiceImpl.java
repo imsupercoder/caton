@@ -1,7 +1,7 @@
-package cn.smart.caton.service;
+package cn.smart.caton.service.sys;
 
-import cn.smart.caton.dao.UserDao;
-import cn.smart.caton.model.User;
+import cn.smart.caton.dao.sys.UserDao;
+import cn.smart.caton.model.sys.User;
 import cn.smart.caton.util.EncryptUtil;
 import cn.smart.caton.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;

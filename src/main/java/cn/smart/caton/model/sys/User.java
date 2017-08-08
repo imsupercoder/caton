@@ -1,7 +1,8 @@
-package cn.smart.caton.model;
+package cn.smart.caton.model.sys;
 
 import cn.smart.caton.annotation.DBExclude;
 import cn.smart.caton.annotation.Table;
+import cn.smart.caton.model.BaseEntity;
 
 /**
  * Created by user on 2017/7/6.

@@ -1,6 +1,6 @@
-package cn.smart.caton.dao;
+package cn.smart.caton.dao.sys;
 
-import cn.smart.caton.model.User;
+import cn.smart.caton.model.sys.User;
 
 import java.util.List;
 import java.util.Map;

@@ -5,10 +5,11 @@
  * Since 2017
  */
 
-package cn.smart.caton.model;
+package cn.smart.caton.model.sys;
 
 import cn.smart.caton.annotation.DBExclude;
 import cn.smart.caton.annotation.Table;
+import cn.smart.caton.model.BaseEntity;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * @since 1.0
  * */
 @Table("Role")
-public class Role  extends BaseEntity{
+public class Role  extends BaseEntity {
 
     /**
      * name       db_column: NAME 

@@ -5,12 +5,12 @@
  * Since 2017
  */
 
-package cn.smart.caton.dao;
+package cn.smart.caton.dao.sys;
 
 import java.util.List;
 import java.util.Map;
 
-import cn.smart.caton.model.Role;
+import cn.smart.caton.model.sys.Role;
 
 
 /**

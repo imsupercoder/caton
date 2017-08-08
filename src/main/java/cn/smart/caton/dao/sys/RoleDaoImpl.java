@@ -5,15 +5,16 @@
  * Since 2017
  */
 
-package cn.smart.caton.dao;
+package cn.smart.caton.dao.sys;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import cn.smart.caton.model.Function;
+import cn.smart.caton.dao.SmartDaoSupport;
+import cn.smart.caton.model.sys.Function;
+import cn.smart.caton.model.sys.Role;
 import cn.smart.caton.util.SQLUtil;
-import cn.smart.caton.util.StringUtil;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -25,11 +26,11 @@ import org.springframework.stereotype.Repository;
  * @since 1.0
  * */
 @Repository
-public class FunctionDaoImpl extends SmartDaoSupport<Function> implements FunctionDao{
+public class RoleDaoImpl extends SmartDaoSupport<Role> implements RoleDao{
 	
 	@Override
-    public List<Function> findList(Map<String, String> params) {
-        String sql = SQLUtil.queryAllSql(Function.class);
+    public List<Role> findList(Map<String, String> params) {
+        String sql = SQLUtil.queryAllSql(Role.class);
         List<String> values = new LinkedList<>();
 		/*
         if(StringUtil.isNotEmpty(params.get("userName"))) {
@@ -42,13 +43,18 @@ public class FunctionDaoImpl extends SmartDaoSupport<Function> implements Functi
         }*/
 		//TODO. 按照示例填充SQL和请求参数
         sql = sql.replaceFirst("and","where");
-        return getJdbcTemplate().query(sql,BeanPropertyRowMapper.newInstance(Function.class),values.toArray(new String[0]));
+        return getJdbcTemplate().query(sql,BeanPropertyRowMapper.newInstance(Role.class),values.toArray(new String[0]));
     }
 
     @Override
-    public List<Function> getFunctionsByRoleId(String roleId) {
-	    String sql = "select f.* from FUNCTION f,RoleFunction rf where rf.functionId= f.id and rf.roleId=? ";
-        return queryForList(sql,BeanPropertyRowMapper.newInstance(Function.class),roleId);
+    public int saveRoleFunction(Role role) {
+	    getJdbcTemplate().update("delete from RoleFunction where roleId=?",role.getId());
+	    List<Function> functions = role.getFunctions();
+	    String sql = "insert into RoleFunction (RoleId,FunctionId) values(?,?)";
+	    for(Function function : functions){
+	        getJdbcTemplate().update(sql,role.getId(),function.getId());
+        }
+        return functions==null?0:functions.size();
     }
 
 }

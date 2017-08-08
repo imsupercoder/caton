@@ -5,12 +5,12 @@
  * Since 2017
  */
 
-package cn.smart.caton.service;
+package cn.smart.caton.service.sys;
 
 import java.util.List;
 import java.util.Map;
 
-import cn.smart.caton.model.Function;
+import cn.smart.caton.model.sys.Function;
 
 
 /**

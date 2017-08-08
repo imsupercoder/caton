@@ -6,15 +6,16 @@
  */
 
 
-package cn.smart.caton.controller;
+package cn.smart.caton.controller.sys;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.smart.caton.model.Function;
-import cn.smart.caton.service.FunctionService;
+import cn.smart.caton.controller.BaseController;
+import cn.smart.caton.model.sys.Function;
+import cn.smart.caton.service.sys.FunctionService;
 import cn.smart.caton.util.RequestUtil;
 import cn.smart.caton.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.*;
  * */
 @RestController
 @RequestMapping("/function")
-public class FunctionController extends BaseController{
+public class FunctionController extends BaseController {
 
     @Autowired
 	private FunctionService functionService;

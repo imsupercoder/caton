@@ -1,21 +1,17 @@
 package cn.smart.caton.dao;
 
 import cn.smart.caton.model.BaseEntity;
-import cn.smart.caton.model.User;
 import cn.smart.caton.util.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by user on 2017/7/7.

@@ -1,7 +1,8 @@
-package cn.smart.caton.controller;
+package cn.smart.caton.controller.sys;
 
-import cn.smart.caton.model.User;
-import cn.smart.caton.service.UserService;
+import cn.smart.caton.controller.BaseController;
+import cn.smart.caton.model.sys.User;
+import cn.smart.caton.service.sys.UserService;
 import cn.smart.caton.util.RequestUtil;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -19,7 +20,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController extends BaseController{
+public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;

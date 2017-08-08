@@ -5,13 +5,13 @@
  * Since 2017
  */
 
-package cn.smart.caton.service;
+package cn.smart.caton.service.sys;
 
 import java.util.List;
 import java.util.Map;
 
-import cn.smart.caton.dao.RoleDao;
-import cn.smart.caton.model.Role;
+import cn.smart.caton.dao.sys.AgencyDao;
+import cn.smart.caton.model.sys.Agency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,39 +26,38 @@ import org.springframework.transaction.annotation.Transactional;
  * */
 @Service
 @Transactional
-public class RoleServiceImpl implements RoleService {
+public class AgencyServiceImpl implements AgencyService {
 
 	@Autowired
-	private RoleDao roleDao;
+	private AgencyDao agencyDao;
 	
 	/** 
-	 * 创建/更新Role
+	 * 创建/更新Agency
 	 **/
-	public int insertOrUpdate(Role role) {
-		this.roleDao.saveRoleFunction(role);
-	    return this.roleDao.insertOrUpdate(role);
+	public int insertOrUpdate(Agency agency) {
+	    return this.agencyDao.insertOrUpdate(agency);
 	}	
     
 	/** 
-	 * 删除Role
+	 * 删除Agency
 	 **/
     public int delete(String id) {
-        return  this.roleDao.delete(id);
+        return this.agencyDao.delete(id);
     }
     
 	/** 
-	 * 根据ID得到Role
+	 * 根据ID得到Agency
 	 **/    
-    public Role findById(String id) {
-        return this.roleDao.findById(id);
+    public Agency findById(String id) {
+        return this.agencyDao.findById(id);
     }
     
 	/** 
-	 * 查询: Role
+	 * 查询: Agency
 	 **/      
 	@Transactional(readOnly=true)
-	public List<Role> findList(Map<String,String> params) {
-		return roleDao.findList(params);
+	public List<Agency> findList(Map<String,String> params) {
+		return agencyDao.findList(params);
 	}
 	
 }

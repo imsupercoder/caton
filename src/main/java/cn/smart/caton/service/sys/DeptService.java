@@ -5,12 +5,12 @@
  * Since 2017
  */
 
-package cn.smart.caton.service;
+package cn.smart.caton.service.sys;
 
 import java.util.List;
 import java.util.Map;
 
-import cn.smart.caton.model.Role;
+import cn.smart.caton.model.sys.Dept;
 
 
 /**
@@ -19,26 +19,26 @@ import cn.smart.caton.model.Role;
  * @version 1.0
  * @since 1.0
  * */
-public interface RoleService {
+public interface DeptService {
 
 	/** 
-	 * 创建/更新Role
+	 * 创建/更新Dept
 	 **/
-	int insertOrUpdate(Role role);
+	int insertOrUpdate(Dept dept);
     
 	/** 
-	 * 删除Role
+	 * 删除Dept
 	 **/
     int delete(String id);
     
 	/** 
-	 * 根据ID得到Role
+	 * 根据ID得到Dept
 	 **/    
-    Role findById(String id);
+    Dept findById(String id);
     
 	/** 
-	 * 查询: Role
+	 * 查询: Dept
 	 **/      
-	List<Role> findList(Map<String, String> params);
+	List<Dept> findList(Map<String, String> params);
     
 }

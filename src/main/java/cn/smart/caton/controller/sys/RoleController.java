@@ -6,17 +6,15 @@
  */
 
 
-package cn.smart.caton.controller;
+package cn.smart.caton.controller.sys;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import cn.smart.caton.model.Function;
-import cn.smart.caton.model.Role;
-import cn.smart.caton.service.RoleService;
+import cn.smart.caton.model.sys.Role;
+import cn.smart.caton.service.sys.RoleService;
 import cn.smart.caton.util.RequestUtil;
 import cn.smart.caton.util.StringUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
