@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>部门管理</title>
+<!-- Bootstrap -->
+<link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link href="/vendors/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet">
+<!-- iCheck -->
+<link href="/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+<!-- toastr -->
+<link href="/vendors/toastr/toastr.min.css" rel="stylesheet">
+<!-- Datatables -->
+<link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Custom Theme Style -->
+<link href="/css/custom.css" rel="stylesheet">
+<!-- showLoading -->
+<link href="/vendors/showloading/showLoading.css" rel="stylesheet">
+	
+<style type="text/css">
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	padding: 1px;
+	line-height: 1.42857143;
+	vertical-align: middle;
+	border-top: 1px solid #ddd;
+}
+</style>
+
+<!--[if lt IE 9]>
+<script src="/js/es5-shim-master/es5-shim.min.js"></script>
+<script src="/js/es5-shim-master/es5-sham.min.js"></script>
+<script src="/js/respond.min.js"></script>
+<![endif]-->
+</head>
+<body class="mainpart">
+	<div class="row" id="showLoading">
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+
+			<div class="x_panel">
+				<div class="x_content">
+					<form class="form-horizontal form-label-left input_mask" id="queryForm">
+						<div class="row" data-bind="with:deptQueryVO">
+							<div class="form-group">
+								<label class="control-label col-md-1 col-sm-1 col-xs-12">部门名称</label>
+								<div class="col-md-2 col-sm-2 col-xs-12">
+									<input type="text" data-bind="value:name" class="form-control"  placeholder="部门名称">
+								</div>
+								<div class="col-md-4 col-sm-4 col-xs-12 col-md-offset-1">
+									<button type="button" class="btn btn-primary"  data-bind="click:$root.findDepts">查找</button>
+									<button type="button" class="btn btn-primary"  data-toggle="modal" data-target=".updateModal" 
+									data-bind="click:$root.newDept">增加</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th></th>
+								<th></th>
+								<th>部门名称</th>
+								<th>所属上级</th>
+								<th>是否有效</th>
+							</tr>
+						</thead>
+						<tbody 
+							data-bind="foreach: pageList.pageItems">
+							<tr>
+								<td ><a href="#" class="btn btn-info btn-xs"
+									data-toggle="modal" data-target="#updateModal" data-bind="click:$root.getDeptVOForEdit"> <i
+										class="fa fa-pencil"></i> 编辑
+								</a></td>
+								<td ><a href="#" class="btn btn-danger btn-xs"
+									data-toggle="modal" data-target="#deleteModal" data-bind="click:$root.getDeptVOForDelete"> <i
+										class="fa fa-trash-o"></i> 删除
+								</a></td>
+								<td style="text-align:left;word-wrap:break-word;white-space: normal;" data-bind="text:name"></td>
+								<td data-bind="text:parentName"></td>
+								<td data-bind="text:valid"></td>
+							</tr>
+						</tbody>
+					</table>
+					<div id="pager"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal update-->
+		<div id="updateModal" class="modal fade updateModal" tabindex="-1"
+			role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content" id="gradeModal">
+
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span>
+						</button>
+						<h4 class="modal-title"
+							data-bind="text:$root.gbsDeptVO().id!=''?'编辑':'新增'"></h4>
+					</div>
+					<div class="modal-body">
+						<form data-parsley-validate id="demo-form" data-parsley-validate
+							class="form-horizontal form-label-left">
+							<div data-bind="with:gbsDeptVO">
+							<div class="row">
+								<div class="form-group col-md-12">
+									<div class="col-md-3 column">
+										<label class="control-label" style="width: 100%">部门名称</label>
+									</div>
+									<div class="col-md-8 column">
+										<input type="text" required="required" data-bind="value:name" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-12">
+									<div class="col-md-3 column">
+										<label class="control-label" style="width: 100%">所属上级</label>
+									</div>
+									<div class="col-md-8 column">
+										<select class="form-control" data-bind="options: $root.editParents,optionsText: 'name', optionsValue:'id',value:parentId">
+									</select>
+									</div>
+								</div>
+							</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">取消</button>
+								<button type="button"
+									class="btn btn-success" data-bind="click:$root.insertOrUpdate">保存</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal end-->
+		
+		<!-- modal sure-->
+		<div id="sureModal" class="modal fade deleteModal" tabindex="-1"
+			role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span>
+						</button>
+						<h4 class="modal-title">确认强制更新</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+							您新增的部门已经存在，是否执行更新操作！
+						</p>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">取消</button>
+							<button type="button" class="btn btn-danger" data-bind="click:$root.forceUpdate">更新</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal end-->
+		
+		<!-- modal delete-->
+		<div id="deleteModal" class="modal fade deleteModal" tabindex="-1"
+			role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content" data-bind="with:gbsDeptVO">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span>
+						</button>
+						<h4 class="modal-title">删除部门</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+							您确定要删除部门<code data-bind="text:name"></code>吗！
+						</p>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">取消</button>
+							<button type="button" class="btn btn-danger" data-bind="click:$root.deleteDept">删除</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal end-->
+	</div>
+	<!-- jQuery -->
+	<script src="/js/jquery/jquery.min.js"></script>
+	<!-- jQuery showloading-->
+	<script src="/js/jquery/jquery.showLoading.js"></script>
+	<script src="/js/jquery/jquery.showLoading.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="/js/bootstrap/bootstrap.min.js"></script>
+	<!-- Datatables -->
+	<script src="/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+	<script src="/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+	<!-- validate -->
+	<script src="/vendors/parsleyjs/dist/parsley.min.js"></script>
+	<script src="/vendors/parsleyjs/dist/i18n/zh_cn.js"></script>
+	<!-- toastr -->
+	<script src="/vendors/toastr/toastr.min.js"></script>
+	<!-- knockout -->
+	<script src="/js/knockout.js"></script>
+	<script src="/js/knockout-paging.js"></script>
+
+	<!-- Custom Theme Scripts -->
+	<script src="/js/custom.js"></script>
+	<script src="/js/search.js"></script>
+	<script src="/js/commonUtils.js"></script>
+	<script type="text/javascript">
+		var permissions = sessionStorage.getItem("permissions");
+		/* 分页引入 */
+		$.ajaxSetup({cache:false});
+		var pageList = ko.observableArray().extend({
+			paged : {
+				pageSize : 20,
+				pageGenerator : 'sliding'
+			}
+		});
+		$('#pager').empty().append(pagingInfo('pageList'));
+		
+		$("#showLoading").showLoading();
+		$.ajax({
+			url : "/dept/depts",
+			type : "GET",
+			data : {},
+			success : function(u) {
+				allDateForSearch = u;
+				vm = new MyViewModel(u);
+				ko.applyBindings(vm);
+			},
+			error : ajaxError,
+			dataType : "json",
+			complete : function() {
+                $("#showLoading").hideLoading();
+            }
+		});
+		var emptyGbsDept = {
+				id : "",
+				name : "",
+				parentId : "",
+				addBy : "",
+				addTime : ""
+		};
+
+		function MyViewModel(u) {
+			var self = this;
+			self.gbsDeptVOs = ko.observableArray(u);
+			self.gbsDeptVO = ko.observable();
+			self.gbsDeptVO(jQuery
+					.extend(true, {}, emptyGbsDept));
+			//分页
+			pageList.pageNumber(1);
+			self.pageList = pageList;
+			self.pageList(u);
+			//查询相关
+			self.deptQueryVO = ko.observable();
+			self.deptQueryVO(jQuery
+					.extend(true, {}, emptyGbsDept));
+			//编辑新增相关
+			self.editParents = ko.observableArray([]);
+            $.ajax({
+                url:'/dept/depts',
+                type:'GET',
+                success:function (d) {
+                    self.editParents([{"id":'',"name":'请选择'}].concat(d));
+                }
+            });
+
+			//查找函数，查找所有符合条件的部门信息
+			self.findDepts = function(data,event){
+				//alert( ko.toJSON(data));
+				$.ajax({
+					url : "/dept/depts",
+					type : "GET",
+					data : {"deptName":self.deptQueryVO().deptName},
+					success : function(u) {
+						self.gbsDeptVOs(u);
+                        self.editParents([{"id":'',"name":'请选择'}].concat(u));
+						self.pageList(u);
+					},
+					statusCode : {
+						400 : function(d) {
+							toastr.warning(d.responseText);
+						}
+					},
+					error : ajaxError,
+					dataType : "json"
+				});
+			}
+			//点击编辑按钮
+			self.getDeptVOForEdit = function(data){
+				self.gbsDeptVO(data);
+			}
+			//点击新增按钮
+			self.newDept = function(){
+				self.gbsDeptVO(jQuery
+						.extend(true, {}, emptyGbsDept));
+				self.gbsDeptVO(self.gbsDeptVO());
+			}
+			//点击删除按钮
+			self.getDeptVOForDelete = function(data){
+				self.gbsDeptVO(data);
+			}
+			
+			//更新一个部门信息
+			self.insertOrUpdate = function() {
+				if ($('#demo-form').parsley().validate()) {
+					$("#updateModal").showLoading();
+					$.ajax({
+						url : "/dept/dept",
+						method : "POST",
+						contentType : "application/json;charset=utf-8",
+						data : ko.toJSON(self.gbsDeptVO()),
+						success : function(d) {
+							toastr.success("修改成功");
+							self.findDepts(self.deptQueryVO());
+							$(".updateModal").modal("hide");
+
+						},
+						error : ajaxError,
+						dataType : "json",
+						complete : function() {
+			                $("#updateModal").hideLoading();
+			            }
+					});
+				}
+			};
+			//删除部门
+			self.deleteDept = function(data){
+				$.ajax({
+					url : "/dept/delete",
+					method : "POST",
+					data:{"id":self.gbsDeptVO().id},
+					success : function(d) {
+						if (d) {
+							toastr.success("删除成功");
+							self.findDepts(self.deptQueryVO());
+							$('#deleteModal').modal('hide');
+						} else {
+							toastr.success("对不起,删除失败！");
+						}
+					},
+					error : ajaxError,
+					dataType : "json"
+				});
+			}
+		}
+
+	</script>
+</body>
+</html>

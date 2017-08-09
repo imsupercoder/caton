@@ -14,6 +14,7 @@ import java.util.Map;
 import cn.smart.caton.dao.SmartDaoSupport;
 import cn.smart.caton.model.sys.Dept;
 import cn.smart.caton.util.SQLUtil;
+import cn.smart.caton.util.StringUtil;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -29,13 +30,14 @@ public class DeptDaoImpl extends SmartDaoSupport<Dept> implements DeptDao{
 	
 	@Override
     public List<Dept> findList(Map<String, String> params) {
-        String sql = SQLUtil.queryAllSql(Dept.class);
+        String sql = "select d.*,d2.name as parentName from Dept d left join Dept d2 on d.parentId = d2.id ";//SQLUtil.queryAllSql(Dept.class);
         List<String> values = new LinkedList<>();
-		/*
-        if(StringUtil.isNotEmpty(params.get("userName"))) {
-            sql += " and USERNAME like ?";
-            values.add("%"+params.get("userName")+"%");
+
+        if(StringUtil.isNotEmpty(params.get("name"))) {
+            sql += " and d.name like ?";
+            values.add("%"+params.get("name")+"%");
         }
+        /*
         if(StringUtil.isNotEmpty(params.get("gender"))) {
             sql += " and GENDER =?";
             values.add(params.get("gender"));

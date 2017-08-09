@@ -19,8 +19,7 @@ import cn.smart.caton.model.BaseEntity;
  * */
 @Table("Agency")
 public class Agency  extends BaseEntity {
-	private static final long serialVersionUID = 5454155825314635342L;
-	
+
     /**
      * name       db_column: NAME 
      */ 

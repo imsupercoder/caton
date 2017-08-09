@@ -7,6 +7,7 @@
 
 package cn.smart.caton.model.sys;
 
+import cn.smart.caton.annotation.DBExclude;
 import cn.smart.caton.annotation.Table;
 import cn.smart.caton.model.BaseEntity;
 
@@ -19,8 +20,7 @@ import cn.smart.caton.model.BaseEntity;
  * */
 @Table("Dept")
 public class Dept  extends BaseEntity {
-	private static final long serialVersionUID = 5454155825314635342L;
-	
+
     /**
      * name       db_column: NAME 
      */ 
@@ -32,7 +32,10 @@ public class Dept  extends BaseEntity {
     /**
      * parentid       db_column: PARENTID 
      */ 
-	private String parentid;
+	private String parentId;
+
+	@DBExclude
+	private String parentName;
 
 	public Dept(){
 	}
@@ -48,11 +51,18 @@ public class Dept  extends BaseEntity {
 	public void setValid(String value) {
 		this.valid = value;
 	}
-	public String getParentid() {
-		return this.parentid;
+	public String getParentId() {
+		return this.parentId;
 	}
-	public void setParentid(String value) {
-		this.parentid = value;
+	public void setParentId(String value) {
+		this.parentId = value;
 	}
 
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
 }

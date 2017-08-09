@@ -16,7 +16,7 @@ public class UserDaoImpl extends SmartDaoSupport<User> implements UserDao {
 
     @Override
     public List<User> findList(Map<String, String> params) {
-        String sql = "select u.*,r.name as roleName from USER u,ROLE r,UserRole ur where ur.UserId = u.id and r.id=ur.roleId ";//SQLUtil.queryAllSql(User.class);
+        String sql = "select u.*,r.name as roleName,r.id as roleId,d.name as deptName from USER u,ROLE r,UserRole ur,Dept d where d.id=u.deptId and ur.UserId = u.id and r.id=ur.roleId ";//SQLUtil.queryAllSql(User.class);
         List<String> values = new LinkedList<>();
         if(StringUtil.isNotEmpty(params.get("userName"))) {
             sql += " and u.USERNAME like ?";

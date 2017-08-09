@@ -72,6 +72,7 @@
                             <th>用户名</th>
                             <th>性别</th>
                             <th>角色</th>
+                            <th>部门</th>
                         </tr>
                         </thead>
                         <tbody data-bind="foreach: pageList.pageItems">
@@ -87,6 +88,7 @@
                             <td data-bind="text:userName"></td>
                             <td data-bind="text:gender"></td>
                             <td data-bind="text:roleName"></td>
+                            <td data-bind="text:deptName"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -116,6 +118,15 @@
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12 col-md-offset-2">姓名</label>
                                 <div class="col-md-3 col-sm-3 col-xs-12">
                                     <input type="text" class="form-control"  data-bind="value:$root.userVO().userName,disable:$root.userVO().id!=''">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-10 col-sm-10 col-xs-12">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12 col-md-offset-2">所属部门</label>
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <select class="form-control" data-bind="options: $root.editParents,optionsText: 'name', optionsValue:'id',value:$root.userVO().deptId">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -211,7 +222,8 @@
         id:'',
         userName:'',
         gender:'男',
-        roleId:''
+        roleId:'',
+        deptId:''
     };
     var queryVO = {
         userName:'',
@@ -227,7 +239,7 @@
 
     $("#showLoading").showLoading();
     $.ajax({
-        url : "/user/users.do",
+        url : "/user/users",
         type : "POST",
         contentType : "application/json;charset=utf-8",
         data : {},
@@ -254,6 +266,14 @@
         self.queryVO = ko.observable(jQuery.extend(true,{},queryVO));
         self.queryRoleVOs = ko.observableArray([]);
         self.roleVOs = ko.observableArray([]);
+        self.editParents = ko.observableArray([]);
+        $.ajax({
+            url:'/dept/depts',
+            type:'GET',
+            success:function (d) {
+                self.editParents([{"id":'',"name":'请选择'}].concat(d));
+            }
+        });
         $.ajax({
            url:'/role/roles',
            type:'GET',
@@ -265,7 +285,7 @@
         });
         self.query = function(){
             $.ajax({
-                url:'/user/users.do',
+                url:'/user/users',
                 type:'POST',
                 data:self.queryVO(),
                 success:function(d){
@@ -289,7 +309,7 @@
         self.delete=function(){
             $("#showLoading").showLoading();
             $.ajax({
-                url:'/user/delete.do',
+                url:'/user/delete',
                 type:'POST',
                 data:{id:self.userVO().id},
                 success:function(d){
@@ -310,7 +330,7 @@
         self.save = function(){
             $("#showLoading").showLoading();
             $.ajax({
-                url:'/user/user.do',
+                url:'/user/user',
                 type:'POST',
                 data:JSON.stringify(self.userVO()),
                 contentType:'application/json',

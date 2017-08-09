@@ -26,13 +26,13 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @RequiresPermissions("caton.sys.admin")
-    @RequestMapping(value = "/users.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/users",method = RequestMethod.POST)
     public List<User> list(HttpServletRequest request){
         return userService.findList(RequestUtil.getParamMap(request));
     }
 
     @RequiresPermissions("caton.sys.admin")
-    @RequestMapping(value ="/delete.do",method = RequestMethod.POST)
+    @RequestMapping(value ="/delete",method = RequestMethod.POST)
     public Map<String,Object> delete(@RequestParam("id")String id){
         Map<String,Object> returnMap = new HashMap<>();
         returnMap.put("flag",userService.delete(id)==1?true:false);
@@ -40,7 +40,7 @@ public class UserController extends BaseController {
     }
 
     @RequiresPermissions("caton.sys.admin")
-    @RequestMapping(value ="/user.do",method = RequestMethod.POST)
+    @RequestMapping(value ="/user",method = RequestMethod.POST)
     public Map<String,Object> insertOrUpdate(@RequestBody User user){
         Map<String,Object> returnMap = new HashMap<>();
         returnMap.put("flag",userService.insertOrUpdate(user)==1?true:false);

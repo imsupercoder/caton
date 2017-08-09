@@ -1,5 +1,6 @@
 package cn.smart.caton.controller.sys;
 
+import cn.smart.caton.controller.BaseController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.UnauthenticatedException;

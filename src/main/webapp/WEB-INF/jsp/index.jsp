@@ -50,6 +50,9 @@
                                 </a>
                                 <ul class="nav child_menu">
                                     <li>
+                                        <a href="#" url="/page/system/dept.html">部门管理</a>
+                                    </li>
+                                    <li>
                                         <a href="#" url="/page/system/user.html">用户管理</a>
                                     </li>
                                     <li>

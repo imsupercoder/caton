@@ -16,17 +16,12 @@ public class User extends BaseEntity {
     private String gender;
     @DBExclude
     private String roleName;
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
     @DBExclude
     private String roleId;
+
+    private String deptId;
+    @DBExclude
+    private String deptName;
 
     public String getUserCode() {
         return userCode;
@@ -66,5 +61,27 @@ public class User extends BaseEntity {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 }

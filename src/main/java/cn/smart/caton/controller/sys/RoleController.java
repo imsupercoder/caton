@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.smart.caton.controller.BaseController;
 import cn.smart.caton.model.sys.Role;
 import cn.smart.caton.service.sys.RoleService;
 import cn.smart.caton.util.RequestUtil;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
  * */
 @RestController
 @RequestMapping("/role")
-public class RoleController extends BaseController{
+public class RoleController extends BaseController {
 
     @Autowired
 	private RoleService roleService;
